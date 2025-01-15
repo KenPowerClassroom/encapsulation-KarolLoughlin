@@ -42,21 +42,16 @@ private:
 public:
     Thermostat(double temperature) : currentTemperature(temperature) {}
 
-    double getCurrentTemperature() const {
-        return currentTemperature;
-    }
-
-    //New function
-    void regulate(HeatingSystem& hs, int targetTemp) {
-        if (getCurrentTemperature() < targetTemp) {
+    void regulate(HeatingSystem& hs, double targetTemperature) {
+        if (currentTemperature < targetTemperature) {
             hs.turnOn();
         }
         else {
             hs.turnOff();
         }
-
     }
 };
+
 #include <iostream>
 #include <string>
 
@@ -175,15 +170,8 @@ int main() {
     Thermostat thermostat(18.5);
     HeatingSystem heating;
 
-    //if (thermostat.getCurrentTemperature() < 20.0) {
-    //    heating.turnOn();
-    //}
-    //else {
-    //    heating.turnOff();
-    //}
-
-    thermostat.regulate(heating, 20);
-    
+    thermostat.regulate(heating, 20.0);
+ 
     //////////////////////////////////////////////////////////////////
     // Exercise 3
     //////////////////////////////////////////////////////////////////
@@ -199,10 +187,15 @@ int main() {
     //////////////////////////////////////////////////////////////////
     // Exercise 4
     //////////////////////////////////////////////////////////////////
+
     Player player;
     Game game;
 
-    game.enemyAttack(player); // Player can respond to attack
+    while (player.getHealth() > 0 && player.getAmmo() > 0) {
+        game.enemyAttack(player); // Player responds to attack until unable
+    }
 
     return 0;
+    
+
 }
